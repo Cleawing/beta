@@ -25,13 +25,91 @@
 	<script src="assets/plugins/pace/pace.min.js"></script>
 	<!-- ================== END BASE JS ==================== -->
 
-    <!-- ================== START MIXPANEL ================== -->
+    <!-- ================== START SEGMENT ================== -->
     <script type="text/javascript">
-        (function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"http://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
-        mixpanel.init("3cb32c0342d2e3bcc46b644a1c2d3618");
-    </script>
-    <!-- ================== END MIXPANEL =================== -->
+  (function(){
+
+    // Create a queue, but don't obliterate an existing one!
+    var analytics = window.analytics = window.analytics || [];
+
+    // If the real analytics.js is already on the page return.
+    if (analytics.initialize) return;
+
+    // If the snippet was invoked already show an error.
+    if (analytics.invoked) {
+      if (window.console && console.error) {
+        console.error('Segment snippet included twice.');
+      }
+      return;
+    }
+
+    // Invoked flag, to make sure the snippet
+    // is never invoked twice.
+    analytics.invoked = true;
+
+    // A list of the methods in Analytics.js to stub.
+    analytics.methods = [
+      'trackSubmit',
+      'trackClick',
+      'trackLink',
+      'trackForm',
+      'pageview',
+      'identify',
+      'group',
+      'track',
+      'ready',
+      'alias',
+      'page',
+      'once',
+      'off',
+      'on'
+    ];
+
+    // Define a factory to create stubs. These are placeholders
+    // for methods in Analytics.js so that you never have to wait
+    // for it to load to actually record data. The `method` is
+    // stored as the first argument, so we can replay the data.
+    analytics.factory = function(method){
+      return function(){
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift(method);
+        analytics.push(args);
+        return analytics;
+      };
+    };
+
+    // For each of our methods, generate a queueing stub.
+    for (var i = 0; i < analytics.methods.length; i++) {
+      var key = analytics.methods[i];
+      analytics[key] = analytics.factory(key);
+    }
+
+    // Define a method to load Analytics.js from our CDN,
+    // and that will be sure to only ever load it once.
+    analytics.load = function(key){
+      // Create an async script element based on your key.
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.async = true;
+      script.src = ('https:' === document.location.protocol
+        ? 'https://' : 'http://')
+        + 'cdn.segment.com/analytics.js/v1/'
+        + key + '/analytics.min.js';
+
+      // Insert our script next to the first script element.
+      var first = document.getElementsByTagName('script')[0];
+      first.parentNode.insertBefore(script, first);
+    };
+
+    // Add a version to keep track of what's in the wild.
+    analytics.SNIPPET_VERSION = '3.0.2';
+
+    // Load Analytics.js with your key, which will automatically
+    // load the tools you've enabled for your account. Boosh!
+    analytics.load("E1JIABszL8Drp2tuVhubladpvsd7haQZ");
+  })();
+</script>
+    <!-- ================== END SEGMENT =================== -->
 </head>
 <body class="pace-top bg-white">
 	<!-- begin #page-loader -->
@@ -101,6 +179,7 @@
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="assets/plugins/jquery/jquery-1.9.1.min.js"></script>
 	<script src="assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+    <script src="assets/plugins/jquery/jquery.serializejson.js"></script>
 	<script src="assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
 	<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 	<!--[if lt IE 9]>
@@ -118,19 +197,21 @@
 
 	<script>
         $(document).ready(function() {
-            App.init();
+            analytics.ready(function(){
+                App.init();
+                analytics.page("Beta", "Index");
             
-            mixpanel.register({
-                "Site": "beta.cleawing.com",
-                "Page": "index"
-            });
-
-            mixpanel.track("Page loaded")
-
-            $("#register-form").submit(function (event) {
-                console.log(event);
-                console.log(new FormData(this));
-                event.preventDefault();
+                $("#register-form").submit(function (event) {
+                    var formData = $(this).serializeJSON();
+                    analytics.alias(formData.email);
+                    analytics.identify(formData.email, {
+                        "firstName" : formData.fName,
+                        "lastName" : formData.lName,
+                        "email" : formData.email
+                    });
+                    analytics.track("Signed up to Beta");
+                    event.preventDefault();
+                });
             });
         });
 	</script>
