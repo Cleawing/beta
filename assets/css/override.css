@@ -1,3 +1,7 @@
 #aloha {
 	display: none;
 }
+
+.error {
+	text-align: left;
+}
