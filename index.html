@@ -137,17 +137,17 @@
             analytics.page("Beta", "Index");
         
             $("#register-form").submit(function (event) {
-                // $("#join-button").prop("disabled", true);
-                // var formData = $(this).serializeJSON();
-                // analytics.alias(formData.email);
-                // analytics.identify(formData.email, {
-                //     "firstName" : formData.fName,
-                //     "email" : formData.email
-                // });
-                // analytics.track("Signed up to Beta", {
-                //     "LeadSource" : "beta.cleawing.com",
-                //     "Status" : "Waiting"
-                // });
+                $("#join-button").prop("disabled", true);
+                var formData = $(this).serializeJSON();
+                analytics.alias(formData.email);
+                analytics.identify(formData.email, {
+                    "firstName" : formData.fName,
+                    "email" : formData.email
+                });
+                analytics.track("Signed up to Beta", {
+                    "LeadSource" : "beta.cleawing.com",
+                    "Status" : "Waiting"
+                });
                 
                 event.preventDefault();
                 $("#form-content").hide();
