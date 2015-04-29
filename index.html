@@ -18,6 +18,7 @@
 	<link href="assets/css/animate.min.css" rel="stylesheet" />
 	<link href="assets/css/style.min.css" rel="stylesheet" />
 	<link href="assets/css/style-responsive.min.css" rel="stylesheet" />
+    <link href="assets/css/override.css" rel="stylesheet" />
 	<link href="assets/css/theme/default.css" rel="stylesheet" id="theme" />
 	<!-- ================== END BASE CSS STYLE ================== -->
 	
@@ -72,22 +73,25 @@
                 <!-- begin register-content -->
                 <div class="register-content">
                     <form id="register-form" class="margin-bottom-0">
-                        <p>Early users will receive discounts, lifetime support and much fun with top-notch technologies.</p>
-                        <label class="control-label">Name</label>
-                        <div class="row row-space-10">
-                            <div class="col-md-12 m-b-15">
-                                <input type="text" name="fName" class="form-control" placeholder="Your Name" />
+                        <div id="form-content">
+                            <p>Early users will receive discounts, lifetime support and much fun with top-notch technologies.</p>
+                            <label class="control-label">Name</label>
+                            <div class="row row-space-10">
+                                <div class="col-md-12 m-b-15">
+                                    <input type="text" name="fName" class="form-control" placeholder="Your Name" />
+                                </div>
+                            </div>
+                            <label class="control-label">Email</label>
+                            <div class="row m-b-15">
+                                <div class="col-md-12">
+                                    <input type="text" name="email" class="form-control" placeholder="Email address" />
+                                </div>
+                            </div>
+                            <div class="register-buttons">
+                                <button id="join-button" type="submit" class="btn btn-primary btn-block btn-lg">Join</button>
                             </div>
                         </div>
-                        <label class="control-label">Email</label>
-                        <div class="row m-b-15">
-                            <div class="col-md-12">
-                                <input type="text" name="email" class="form-control" placeholder="Email address" />
-                            </div>
-                        </div>
-                        <div class="register-buttons">
-                            <button type="submit" class="btn btn-primary btn-block btn-lg">Join</button>
-                        </div>
+                        <div id="aloha"><h5>Aloha! Check your email soon for introduction!</h5></div>
                         <hr />
                         <p class="text-center text-inverse">
                             Copyright &copy; 2015 Cleawing
@@ -133,18 +137,21 @@
             analytics.page("Beta", "Index");
         
             $("#register-form").submit(function (event) {
-                var formData = $(this).serializeJSON();
-                analytics.alias(formData.email);
-                analytics.identify(formData.email, {
-                    "firstName" : formData.fName,
-                    "email" : formData.email
-                });
-                analytics.track("Signed up to Beta", {
-                    "LeadSource" : "beta.cleawing.com",
-                    "Status" : "Waiting"
-                });
+                // $("#join-button").prop("disabled", true);
+                // var formData = $(this).serializeJSON();
+                // analytics.alias(formData.email);
+                // analytics.identify(formData.email, {
+                //     "firstName" : formData.fName,
+                //     "email" : formData.email
+                // });
+                // analytics.track("Signed up to Beta", {
+                //     "LeadSource" : "beta.cleawing.com",
+                //     "Status" : "Waiting"
+                // });
                 
                 event.preventDefault();
+                $("#form-content").hide();
+                $("#aloha").show();
             });
         });
 	</script>
