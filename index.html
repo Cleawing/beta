@@ -25,19 +25,6 @@
 	<!-- ================== BEGIN BASE JS ================== -->
 	<script src="assets/plugins/pace/pace.min.js"></script>
 	<!-- ================== END BASE JS ==================== -->
-
-    <!-- ================== START SEGMENT.COM ============== -->
-    <script type="text/javascript">
-        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
-            analytics.load("E1JIABszL8Drp2tuVhubladpvsd7haQZ");
-        }}();
-    </script>
-    <!-- ================== END SEGMENT.COM =================== -->
-
-    <!-- ================== START AUTOPILOT =================== -->
-    <script type="text/javascript">(function(){var c=encodeURIComponent,s="SCRIPT",d=document,e=d.createElement(s),t=d.getElementsByTagName(s)[0],p="t="+c(d.title||"")+"&u="+c(d.location.href||"")+"&r="+c(d.referrer||"");e.src="https://api.autopilothq.com/anywhere/178977508ab04e32b4c9bf0b84c32f416a3945fc248e4194899bb70013dc4be6?"+p;e.type="text/javascript";e.async=true;t.parentNode.insertBefore(e, t);})();
-    </script>
-    <!-- ================== END AUTOPILOT ==================== -->
 </head>
 <body class="pace-top bg-white">
 	<!-- begin #page-loader -->
@@ -123,43 +110,28 @@
 	<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="assets/plugins/jquery-cookie/jquery.cookie.js"></script>
 	<!-- ================== END BASE JS ================== -->
+    
+    <!-- ================== START SEGMENT.COM ============== -->
+    <script type="text/javascript">
+        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+            analytics.load("E1JIABszL8Drp2tuVhubladpvsd7haQZ");
+        }}();
+    </script>
+    <!-- ================== END SEGMENT.COM =================== -->
+
+    <!-- ================== START AUTOPILOT =================== -->
+    <script type="text/javascript">(function(){var c=encodeURIComponent,s="SCRIPT",d=document,e=d.createElement(s),t=d.getElementsByTagName(s)[0],p="t="+c(d.title||"")+"&u="+c(d.location.href||"")+"&r="+c(d.referrer||"");e.src="https://api.autopilothq.com/anywhere/178977508ab04e32b4c9bf0b84c32f416a3945fc248e4194899bb70013dc4be6?"+p;e.type="text/javascript";e.async=true;t.parentNode.insertBefore(e, t);})();
+    </script>
+    <!-- ================== END AUTOPILOT ==================== -->
 	
 	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
 	<script src="assets/js/apps.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.1/jquery.form-validator.min.js"></script>
+    <script src="assets/js/index.js"></script>
 	<!-- ================== END PAGE LEVEL JS ================== -->
 
 	<script>
-         analytics.ready(function(){
-          ll('init', '6ea954880eed51314b8ec0c-b4038618-e94b-11e4-b23f-009c5fda0a25', {trackPageView: false, domain: 'cleawing.com'});
-        });
-        $(document).ready(function() {
-            App.init();
-            analytics.page("Beta", "Index");
-            $.validate({
-                form: '#register-form',
-                onError : function() {
-                    return false;
-                },
-                onSuccess : function() {
-                    $("#join-button").prop("disabled", true);
-                    var formData = $("#register-form").serializeJSON();
-                    analytics.alias(formData.email);
-                    analytics.identify(formData.email, {
-                        "firstName" : formData.fName,
-                        "email" : formData.email
-                    });
-                    analytics.track("Signed up to Beta", {
-                        "LeadSource" : "beta.cleawing.com",
-                        "Status" : "Waiting"
-                    });
-                    
-                    $("#form-content").hide();
-                    $("#aloha").show();
-                    return false;
-                },
-            });
-        });
+         
 	</script>
 </body>
 </html>
